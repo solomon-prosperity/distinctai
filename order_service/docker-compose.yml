@@ -1,0 +1,68 @@
+version: '3.0'
+
+services:
+  order_service:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - '30003:20003'
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/api
+    env_file:
+      - .env
+    environment:
+      - DATABASE_IS_AUTH=true
+      - DATABASE_HOST=mongodb
+      - DATABASE_NAME=DistinctAiOrderServiceDB
+      - DATABASE_USER=user
+      - DATABASE_PASSWORD=password
+      - DATABASE_PORT=27017
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE_PREFIX=distinct-ai-dev
+      - RABBITMQ_VHOST=/
+      - RABBITMQ_TLS=false
+      - PRODUCT_SERVICE_GRPC_HOST_PORT=127.0.0.1:50052
+      - OWNER_SERVICE_GRPC_HOST_PORT=127.0.0.1:50051
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - mongodb
+      - rabbitmq
+
+  mongodb:
+    image: mongo:6.0
+    restart: on-failure
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672' # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  redis:
+    container_name: cache
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+volumes:
+  mongo_data:
+  rabbitmq_data:
+  redis:
+    driver: local

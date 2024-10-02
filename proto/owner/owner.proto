@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package ownerproto;
+
+service OwnerService {
+    rpc getOwner(getOwnerRequest) returns (getOwnerResponse) {}
+    rpc validateToken(validateTokenRequest) returns (validateTokenResponse) {}
+}
+
+message getOwnerRequest {
+    string id = 1;
+}
+
+message getOwnerResponse {
+    string owner = 1;
+}
+
+message validateTokenRequest {
+    string token = 1;
+}
+
+message validateTokenResponse {
+    string owner = 1;
+}

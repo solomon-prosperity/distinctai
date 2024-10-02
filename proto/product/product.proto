@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package productproto;
+
+service ProductService {
+    rpc getProducts(getProductsRequest) returns (getProductsResponse) {}
+}
+
+message getProductsRequest {
+    repeated string productids = 1;
+}
+
+message getProductsResponse {
+    string products = 1;
+}

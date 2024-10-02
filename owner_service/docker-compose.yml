@@ -1,0 +1,60 @@
+version: '3.0'
+
+services:
+  owner_service:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - '30001:20001'
+      - '60051:50051'
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/api
+    env_file:
+      - .env
+    environment:
+      - GRPC_PORT=50051
+      - DATABASE_IS_AUTH=true
+      - DATABASE_HOST=mongodb
+      - DATABASE_NAME=DistinctAiOwnersServiceDB
+      - DATABASE_USER=user
+      - DATABASE_PASSWORD=password
+      - DATABASE_PORT=27017
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE_PREFIX=distinct-ai-dev
+      - RABBITMQ_VHOST=/
+      - RABBITMQ_TLS=false
+      - JWT_SECRET=yguhjivghbjnhhh
+      - JWT_EXPIRY_TIME=1d
+    depends_on:
+      - mongodb
+      - rabbitmq
+
+  mongodb:
+    image: mongo:6.0
+    restart: on-failure
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672' # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  mongo_data:
+  rabbitmq_data:
