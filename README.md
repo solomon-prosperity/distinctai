@@ -36,7 +36,7 @@ This project implements a microservices architecture using NestJS, consisting of
 
 ### Prerequisites
 
-- Node.js (version >= 14)
+- Node.js (version >= 18)
 - MongoDB
 - RabbitMQ
 - Redis
@@ -46,7 +46,7 @@ This project implements a microservices architecture using NestJS, consisting of
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/microservices-architecture-nestjs.git
+   git clone https://github.com/solomon-prosperity/distinctai.git
    cd microservices-architecture-nestjs
 2. Navigate to each service and install dependencies
 
