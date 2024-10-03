@@ -47,7 +47,6 @@ This project implements a microservices architecture using NestJS, consisting of
 
    ```bash
    git clone https://github.com/solomon-prosperity/distinctai.git
-   cd microservices-architecture-nestjs
 2. Navigate to each service and install dependencies
 
   ```bash
