@@ -83,3 +83,6 @@ Each service provides its own API documentation:
 1. OwnerService: http://localhost:3000/api-docs
 2. ProductsService: http://localhost:3001/api-docs
 3. OrderService: http://localhost:3002/api-docs
+
+### Postman Docs
+https://documenter.getpostman.com/view/16946617/2sAXxLBtue
